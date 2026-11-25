@@ -51,7 +51,7 @@ public class ScholarshipCalculatorTest {
     void gpaBranches() {
         assertEquals(2.0, calc.calculateGpa(new String[]{"C"}), 0.001);
         assertEquals(1.0, calc.calculateGpa(new String[]{"D"}), 0.001);
-        assertEquals(0.0, calc.calculateScholarship(3.95, 16, true));
+        assertEquals(0.0, calc.calculateGpa(new String[]{"F"}), 0.001);
         assertThrows(IllegalArgumentException.class, () -> calc.calculateGpa(new String[]{"X"}));
     }
 
@@ -66,5 +66,25 @@ public class ScholarshipCalculatorTest {
         assertEquals(50, calc.calculateScholarship(3.15, 12, false));
         assertEquals(0, calc.calculateScholarship(2.4, 9, false));
         assertEquals(0, calc.calculateScholarship(3.85, 11, false));
+    }
+
+    // ХЭСЭГ C: Давталтын заагийн тестүүд (0, 1, 2+ удаа)
+    @Test
+    @DisplayName("C1. Давталт 0 удаа ажиллах (null болон хоосон массив)")
+    void loopZeroIterations() {
+        assertThrows(IllegalArgumentException.class, () -> calc.calculateGpa(null));
+        assertThrows(IllegalArgumentException.class, () -> calc.calculateGpa(new String[]{}));
+    }
+
+    @Test
+    @DisplayName("C2. Давталт 1 удаа ажиллах")
+    void loopSingleIteration() {
+        assertEquals(3.0, calc.calculateGpa(new String[]{"B"}), 0.001);
+    }
+
+    @Test
+    @DisplayName("C3. Давталт 2 ба түүнээс олон удаа ажиллах")
+    void loopMultipleIterations() {
+        assertEquals(2.333, calc.calculateGpa(new String[]{"A", "C", "D"}), 0.01);
     }
 }
