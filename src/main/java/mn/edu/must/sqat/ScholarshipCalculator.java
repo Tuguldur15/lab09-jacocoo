@@ -2,7 +2,7 @@ package mn.edu.must.sqat;
 
 public class ScholarshipCalculator {
 
-    // 1. Дүнгийн үсэг тооцох (Анхаар: score > 60 дээр санаатай согог агуулагдаж байгаа)
+    // 1. Дүнгийн үсэг тооцох (60.0 зааг дээр >= 60 болгож засварлав)
     public String letterGrade(double score) {
         if (score < 0 || score > 100) {
             throw new IllegalArgumentException("Score must be between 0 and 100");
@@ -10,7 +10,7 @@ public class ScholarshipCalculator {
         if (score >= 90) return "A";
         if (score >= 80) return "B";
         if (score >= 70) return "C";
-        if (score > 60)  return "D"; // Согогтой мөр (> 60 нь 60.0 дээр F буцаана)
+        if (score >= 60) return "D";
         return "F";
     }
 

@@ -87,4 +87,18 @@ public class ScholarshipCalculatorTest {
     void loopMultipleIterations() {
         assertEquals(2.333, calc.calculateGpa(new String[]{"A", "C", "D"}), 0.01);
     }
+
+    // ХЭСЭГ D: Зааг утгын тестүүд (Boundary Value Analysis)
+    @Test
+    @DisplayName("D1. letterGrade зааг утгуудыг шалгах")
+    void letterGradeBoundaries() {
+        assertEquals("A", calc.letterGrade(90.0));
+        assertEquals("B", calc.letterGrade(89.99));
+        assertEquals("B", calc.letterGrade(80.0));
+        assertEquals("C", calc.letterGrade(79.99));
+        assertEquals("C", calc.letterGrade(70.0));
+        assertEquals("D", calc.letterGrade(69.99));
+        // 60.0 зааг дээр score > 60 согогийн улмаас унана
+        assertEquals("D", calc.letterGrade(60.0));
+    }
 }
