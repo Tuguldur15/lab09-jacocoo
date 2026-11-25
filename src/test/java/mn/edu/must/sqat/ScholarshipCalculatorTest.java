@@ -15,7 +15,7 @@ public class ScholarshipCalculatorTest {
         calc = new ScholarshipCalculator();
     }
 
-    // ХЭСЭГ A: Зөвхөн хэвийн урсгалын (Happy Path) тестүүд
+    // ХЭСЭГ A: Хэвийн урсгалын тестүүд
     @Test
     @DisplayName("A1. Хэвийн A дүн тооцох")
     void happyPathLetterGrade() {
@@ -33,5 +33,38 @@ public class ScholarshipCalculatorTest {
     @DisplayName("A3. 100% тэтгэлэг авах хэвийн тохиолдол")
     void happyPathScholarship() {
         assertEquals(100, calc.calculateScholarship(3.9, 16, false));
+    }
+
+    // ХЭСЭГ B: Бүх branch болон exception урсгалыг шалгах тестүүд
+    @Test
+    @DisplayName("B1. letterGrade хязгаараас хэтэрсэн утга ба бусад үсгэн дүн")
+    void letterGradeBranches() {
+        assertThrows(IllegalArgumentException.class, () -> calc.letterGrade(-2.5));
+        assertThrows(IllegalArgumentException.class, () -> calc.letterGrade(101.0));
+        assertEquals("B", calc.letterGrade(84.0));
+        assertEquals("C", calc.letterGrade(72.5));
+        assertEquals("F", calc.letterGrade(45.0));
+    }
+
+    @Test
+    @DisplayName("B2. calculateGpa үсгэн дүнгүүдийн салбар ба буруу утга")
+    void gpaBranches() {
+        assertEquals(2.0, calc.calculateGpa(new String[]{"C"}), 0.001);
+        assertEquals(1.0, calc.calculateGpa(new String[]{"D"}), 0.001);
+        assertEquals(0.0, calc.calculateScholarship(3.95, 16, true));
+        assertThrows(IllegalArgumentException.class, () -> calc.calculateGpa(new String[]{"X"}));
+    }
+
+    @Test
+    @DisplayName("B3. calculateScholarship нөхцөлүүдийн бүх салбар")
+    void scholarshipBranches() {
+        assertThrows(IllegalArgumentException.class, () -> calc.calculateScholarship(-0.5, 15, false));
+        assertThrows(IllegalArgumentException.class, () -> calc.calculateScholarship(3.7, -1, false));
+
+        assertEquals(0, calc.calculateScholarship(3.95, 16, true));
+        assertEquals(75, calc.calculateScholarship(3.65, 14, false));
+        assertEquals(50, calc.calculateScholarship(3.15, 12, false));
+        assertEquals(0, calc.calculateScholarship(2.4, 9, false));
+        assertEquals(0, calc.calculateScholarship(3.85, 11, false));
     }
 }
